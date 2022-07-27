@@ -1,9 +1,11 @@
+from urllib import request
 from xml.etree.ElementTree import Comment
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 
 from .models import Comments, Post
 from .forms import CommentForm
@@ -72,6 +74,9 @@ class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
+class PostLike(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get(post_id))
 
 
 
