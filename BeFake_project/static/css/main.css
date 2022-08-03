@@ -24,6 +24,10 @@ body {
     color: #8a8100;
     text-decoration: none;
     }
+
+    img{
+        margin: 1em;
+    }
     
     .nav-left {
     margin-right: auto;

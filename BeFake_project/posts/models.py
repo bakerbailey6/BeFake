@@ -8,7 +8,7 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User', related_name="posts", on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField('auth.User', related_name='likes')
+    image = models.ImageField(upload_to='images/') 
 
     def __str__(self):
         return self.title
@@ -19,8 +19,6 @@ class Post(models.Model):
     class Meta:
         ordering = ['-created']
 
-    def number_of_likes(self):
-        return self.likes.count()
 
 
 

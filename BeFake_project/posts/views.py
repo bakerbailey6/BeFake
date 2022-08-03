@@ -75,8 +75,6 @@ class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return self.request.user == post.author
 
-class PostLike(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get(post_id))
 
 
 

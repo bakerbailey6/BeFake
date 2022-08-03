@@ -7,7 +7,11 @@
 
     {% for post in user_profile.posts.all %}
         <div class="post-entry">
-            <h2><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></h2><hr>
+            <h4><em> Posted on {{ post.created }}</em></h4>
+            <a href="{% url 'posts:detail' post.pk %}"><img style="height:271px; max-height: 336px; max-width:336px; width: 263px;" src="{{ post.image.url }}"/></a>
+            <h4>{{ post.title }}</h4>
+            <h3><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h3>
+            <hr>
         </div>
     {% endfor %}
 
