@@ -10,7 +10,7 @@
             <h4><em> Posted on {{ post.created }}</em></h4>
             <a href="{% url 'posts:detail' post.pk %}"><img style="height:271px; max-height: 336px; max-width:336px; width: 263px;" src="{{ post.image.url }}"/></a>
             <h4>{{ post.title }}</h4>
-            <h3><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h3>          
+            <h3><em><a href="{% url 'posts:profile' post.author.pk %}">{{ post.author.username }}</a></em></h3>          
             <hr>
             
         </div>

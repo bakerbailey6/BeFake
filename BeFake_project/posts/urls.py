@@ -18,4 +18,8 @@ urlpatterns = [
     path('inbox/create-thread/', views.CreateThread.as_view(), name='create-thread'),
     path('inbox/<int:pk>/', views.ThreadView.as_view(), name='thread'),
     path('inbox/<int:pk>/create-message/', views.CreateMessage.as_view(), name='create-message'),
+    path('profile/<int:pk>/', views.ProfileView.as_view(), name='profile'),
+    path('profile/edit/<int:pk>/', views.ProfileEditView.as_view(), name='profile-edit'),
+    path('profile/<int:pk>/followers/add', views.AddFollower.as_view(), name='add-follower'),
+    path('profile/<int:pk>/followers/remove', views.RemoveFollower.as_view(), name='remove-follower')
 ]

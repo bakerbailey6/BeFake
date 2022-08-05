@@ -9,7 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from rest_framework import viewsets, permissions
-from .models import Comments, Post, MessageModel, ThreadModel
+from .models import Comments, Post, MessageModel, ThreadModel, UserProfile
 from .forms import CommentForm, ThreadForm, MessageForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -184,6 +184,64 @@ class CreateMessage(View):
 
         message.save()
         return redirect('posts:thread', pk=pk)
+
+class ProfileView(View):
+    def get(self, request, pk, *args, **kwargs):
+        profile = UserProfile.objects.get(pk=pk)
+        user = profile.user
+        posts = Post.objects.filter(author=user).order_by('-created')
+
+        followers = profile.followers.all()
+
+        if len(followers) == 0:
+            is_following = False
+
+        for follower in followers:
+            if follower == request.user:
+                is_following = True
+                break
+            else:
+                is_following = False
+
+        number_of_followers = len(followers)
+
+        context = {
+            'username': user,
+            'profile': profile,
+            'posts': posts,
+            'number_of_followers': number_of_followers,
+            'is_following': is_following,
+        }
+
+        return render(request, 'user_profile.html', context)
+
+class ProfileEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = UserProfile
+    fields = ['name', 'bio', 'birth_date', 'location']
+    template_name = 'profile_edit.html'
+    
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('posts:profile', kwargs={'pk': pk})
+
+    def test_func(self):
+        profile = self.get_object()
+        return self.request.user == profile.user
+
+class AddFollower(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        profile = UserProfile.objects.get(pk=pk)
+        profile.followers.add(request.user)
+
+        return redirect('posts:profile', pk=profile.pk)
+
+class RemoveFollower(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        profile = UserProfile.objects.get(pk=pk)
+        profile.followers.remove(request.user)
+
+        return redirect('posts:profile', pk=profile.pk)
 
 
 

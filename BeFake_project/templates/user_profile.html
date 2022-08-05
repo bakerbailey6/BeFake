@@ -1,16 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row justify-content-center mt-5">
+    <div >
+        {% if profile.name %}
+        <h3 class="py-4">{{ profile.name }}
+            <span>
+                {% if request.user == user %}
+                    <a href="{% url 'posts:profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                {% endif %}
+            </span>
+            {% else %}
+            <h3 class="py-4">{{ user.username }}
+                <span>
+                    {% if request.user == user %}
+                        <a href="{% url 'posts:profile-edit' profile.pk %}" style="color: #333"><i class="far fa-edit"></i></a>
+                    {% endif %}
+                </span>
+            </h3>
+            {% endif %}
+        </h3>
+        <h5><em>posting since {{ username.date_joined }}</em></h5>
 
-    <h1>{{ user_profile.username }}</h1>
-    <h5><em>posting since {{ user_profile.date_joined }}!</em></h5>
+        {% if profile.location %}
+        <p>From: {{ profile.location }}</p>
+        {% endif %}
 
-    {% for post in user_profile.posts.all %}
+        {% if profile.birth_date %}
+        <p>Born: {{ profile.birth_date }}</p>
+        {% endif %}
+
+        {% if profile.bio %}
+        <p>About me: {{ profile.bio }}</p>
+        {% endif %}
+    </div>
+    <div class="mb-3">
+        <p>Followers: {{ number_of_followers }}</p>
+        {% if profile.pk == request.user.pk %}
+        {% else %}
+        {% if is_following %}
+        <form method="POST" action="{% url 'posts:remove-follower' profile.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger" type="submit">Unfollow</button>
+        </form>
+        {% else %}
+        <form method="POST" action="{% url 'posts:add-follower' profile.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-warning" type="submit">Follow</button>
+        </form>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+    {% for post in posts %}
         <div class="post-entry">
             <h4><em> Posted on {{ post.created }}</em></h4>
             <a href="{% url 'posts:detail' post.pk %}"><img style="height:271px; max-height: 336px; max-width:336px; width: 263px;" src="{{ post.image.url }}"/></a>
             <h4>{{ post.title }}</h4>
-            <h3><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h3>
+            <h3><em><a href="{% url 'posts:profile' post.author.pk %}">{{ post.author.username }}</a></em></h3>
             <hr>
         </div>
     {% endfor %}

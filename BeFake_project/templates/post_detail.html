@@ -6,7 +6,7 @@
          <h4><em> Posted on {{ post.created }}</em></h4>
          <a href="{% url 'posts:detail' post.pk %}"><img style="height:271px; max-height: 336px; max-width:336px; width: 263px;" src="{{ post.image.url }}"/></a>
          <h2>{{ post.title }}</h2>
-         <h4><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h4>
+         <h4><em><a href="{% url 'posts:profile' post.author.pk %}">{{ post.author.username }}</a></em></h4>
          <form action="{% url 'posts:like' post.pk %}" method="POST">
             {%csrf_token%}
             {% if liked %}
@@ -32,7 +32,7 @@
 
          {% for comment in comments %}
          {% if comment.is_parent %}
-            <h3><a href="{% url 'users:profile' comment.author.username %}">{{ comment.author }}</a> : {{ comment.content }}</h3> <hr>
+            <h3><a href="{% url 'posts:profile' comment.author.pk %}">{{ comment.author }}</a> : {{ comment.content }}</h3> <hr>
          {% endif %} 
          {% for replies in comment.children %}
             <h3>&nbsp; &nbsp; &nbsp; <b>{{ comment.author }} : </b> {{ replies.content }}</h3>

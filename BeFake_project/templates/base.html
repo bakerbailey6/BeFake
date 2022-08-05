@@ -27,10 +27,10 @@
         </div>
         <div class="nav-right">
             {% if user.is_authenticated %}
-                <p>Hello, <a href="{% url 'users:profile' user.username %}">{{ user.username }}</a>!</p>
-                <p><a href="{% url 'logout' %}">Logout</a></p>
+                <p><a href="{% url 'posts:profile' user.pk %}">{{ user.username }}</a></p>
                 <p><a href="{% url 'posts:new' %}">Create BeFake Post</a></p>
                 <p><a href="{% url 'posts:inbox' %}">Inbox</a></p>
+                <p><a href="{% url 'logout' %}">Logout</a></p>
             {% else %}
                 <p><a href="{% url 'login' %}">Login</a></p>
                 <p><a href="{% url 'users:signup' %}">Sign Up</a></p>
