@@ -6,6 +6,14 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+django-graphql-auth = "*"
+django-channels = "*"
+djangorestframework = "*"
+django-widget-tweaks = "*"
+pytz = "*"
+django-cors-headers = "*"
+pusher = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 

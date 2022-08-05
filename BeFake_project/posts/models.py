@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
 
 
 class Post(models.Model):
@@ -9,6 +11,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='images/') 
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
 
     def __str__(self):
         return self.title
@@ -18,6 +21,9 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created']
+    
+    def total_likes(self):
+        return self.likes.count()
 
 
 
@@ -44,4 +50,18 @@ class Comments(models.Model):
         if self.parent is None:
             return True
         return False
+
+class ThreadModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+        
+
+class MessageModel(models.Model):
+	thread = models.ForeignKey('ThreadModel', related_name='+', on_delete=models.CASCADE, blank=True, null=True)
+	sender_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+	receiver_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
+	body = models.CharField(max_length=1000)
+	image = models.ImageField(upload_to='uploads/message_photos', blank=True, null=True)
+	date = models.DateTimeField(auto_now_add=True)
+	is_read = models.BooleanField(default=False)
     

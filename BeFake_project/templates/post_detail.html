@@ -3,38 +3,47 @@
 {% block content %}
 
     <div class="post-entry">
-        <h2>{{ post.title }}</h2>
-        <h4><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h4>
-        <h4><em> Posted on {{ post.created }}</em></h4>
-        <h4><em>Last updated on {{ post.updated }}</em></h4>
-    </div>
+         <h4><em> Posted on {{ post.created }}</em></h4>
+         <a href="{% url 'posts:detail' post.pk %}"><img style="height:271px; max-height: 336px; max-width:336px; width: 263px;" src="{{ post.image.url }}"/></a>
+         <h2>{{ post.title }}</h2>
+         <h4><em><a href="{% url 'users:profile' post.author.username %}">{{ post.author.username }}</a></em></h4>
+         <form action="{% url 'posts:like' post.pk %}" method="POST">
+            {%csrf_token%}
+            {% if liked %}
+               <button type="submit", name="post_id", value = "{{ post.id }}"class="button">Unlike</button>
+            {% else %}
+               <button type="submit", name="post_id", value = "{{ post.id }}"class="button">Like</button>
+            {% endif %}
+            <br>{{post.likes.count}}
+         </form>
+            <hr>
+            <h2> {{ comments.count }} Comments </h2>
 
-    {% if user == post.author %}
-        <p><a href="{% url 'posts:edit' post.pk %}">+ Edit post</a></p>
-        <p><a href="{% url 'posts:delete' post.pk %}">+ Delete post</a></p>
-    {% endif %}
+         {% if user.is_authenticated %}
+            <form action="" method="POST" id="main_form" class="comment_form">
+            <div>
+             <label for="comment">Type Comment here:</label>
+            {{ comment_form.content }} {% csrf_token %} <input type="submit" value="Comment"></div>
+            <hr>
+            
+            </form>
+         {% else %} <h2>You need to Login to comment</h2> 
+         {% endif %}
 
-    <hr>
-    
-    <h2> Comments {{ data }}</h2>
-
-     {% if user.is_authenticated %}
-      <form action="" method="POST" id="main_form" class="comment_form">
-         <div>
-             <label for="comment">Type Comment here</label>
-            {{ comment_form.content }} {% csrf_token %} <input type="submit" value="Post"></div>
-         </div>
-      </form>
-      {% else %} <h2>You need to Login to comment</h2> 
-      {% endif %}
-
-      {% for comment in comments %}
+         {% for comment in comments %}
          {% if comment.is_parent %}
-         <h3> <b>{{ comment.author }} : </b> {{ comment.content }}</h3> <hr>
+            <h3><a href="{% url 'users:profile' comment.author.username %}">{{ comment.author }}</a> : {{ comment.content }}</h3> <hr>
          {% endif %} 
          {% for replies in comment.children %}
             <h3>&nbsp; &nbsp; &nbsp; <b>{{ comment.author }} : </b> {{ replies.content }}</h3>
          {% endfor %}
       {% endfor %}
+         </div>
+    </div>
+
+    {% if user == post.author %}
+        <p><a href="{% url 'posts:edit' post.pk %}">Edit post</a></p>
+        <p><a href="{% url 'posts:delete' post.pk %}">Delete post</a></p>
+    {% endif %}
 
 {% endblock content %}

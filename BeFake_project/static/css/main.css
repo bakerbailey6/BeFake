@@ -5,10 +5,6 @@ body {
     color: white;
     text-align: center;
     }
-    
-    h1, h2, h3, h4, h5, h6 {
-    font-family: 'EB Garamond', serif;
-    }
 
     a{
         color: #8a8100
@@ -84,3 +80,60 @@ body {
     .post-entry h2 a:hover {
     color: #0f4c81;
     }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #8a8100;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+      }
+      
+      .button:hover {background-color: #8e3e3e}
+      
+      .button:active {
+        background-color: #8a8100;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+
+.inbox-icon-container {
+margin-right: 15px;
+}
+
+.inbox-icon {
+color: #333;
+transition: 0.5s;
+}
+
+.inbox-icon:hover {
+transition: 0.5s;
+}
+
+.empty-text {
+color: #777;
+font-size: 1.5rem;
+text-align: center;
+}
+
+.sent-message {
+color:rgb(27, 27, 27);
+background-color: rgb(1, 196, 255);
+border-radius: 30px;
+padding: 10px 25px;
+width: 25%;
+float: right;
+}
+
+.received-message {
+background-color: #8a8100;
+color: #fff;
+border-radius: 30px;
+padding: 10px 25px;
+width: 25%;
+}
