@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
 import os
 
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     'crispy_forms',
+    'whitenoise.runserver_nostatic',
 
 ]
 
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'BeFake_Project.urls'
@@ -85,11 +88,15 @@ WSGI_APPLICATION = 'BeFake_Project.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    
 }
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -128,6 +135,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR / 'static')]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -151,3 +159,6 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 import django_on_heroku
 django_on_heroku.settings(locals())
+
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1',            
+'befake-app.herokuapp.com']
