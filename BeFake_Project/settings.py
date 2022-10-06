@@ -151,3 +151,4 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 import django_on_heroku
 django_on_heroku.settings(locals())
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
