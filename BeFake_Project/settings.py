@@ -148,7 +148,7 @@ LOGOUT_REDIRECT_URL = 'posts:home'
 LOGIN_URL = 'login'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR , 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
