@@ -16,6 +16,7 @@ pusher = "*"
 django-crispy-forms = "*"
 django-on-heroku = "*"
 gunicorn = "*"
+django-cloudinary-storage = "*"
 
 [dev-packages]
 

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'django.contrib.humanize',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'whitenoise.runserver_nostatic',
+    'cloudinary',
 
 ]
 
@@ -149,6 +151,7 @@ LOGIN_URL = 'login'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -162,3 +165,9 @@ django_on_heroku.settings(locals())
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1',            
 'befake-app.herokuapp.com']
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dycdebzni',
+    'API_KEY': '693626236877155',
+    'API_SECRET': 'CgucwRKVStpqPWHy7JKv7RQYqIs'
+}
